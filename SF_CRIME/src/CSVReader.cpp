@@ -211,7 +211,7 @@ void CSVReader::calcularProbabilidad(map<string,float> &nombreMap,map<string,flo
 
 	map<string,float>::iterator iter = nombreMap.begin();
 	while (iter != nombreMap.end() ){
-		//cout << iter->first + " " <<  iter->second << frecuenciaCrimenes[iter->first] <<endl;
+		cout << iter->first + " " <<  iter->second << frecuenciaCrimenes[iter->first] <<endl;
 		iter->second = (iter->second/frecuenciaCrimenes[iter->first]);
 		//cout << iter->first + " " <<  iter->second << endl;
 		iter++;
