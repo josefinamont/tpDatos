@@ -180,9 +180,7 @@ float Bayes::calcularProbabilidadPosteriori(Row row,string nombreDelCrimen){
 	p4 = (probabilidadesPorMes[indiceDeMeses][nombreDelCrimen]);//de 0 a 11
 	p5 = (probabilidadesPorCoordenadas[indiceCoordenadas][nombreDelCrimen]);// de 0 a cantidadParcelas que es constante;
 
-
 	return p1*p2*p3*p4*p5;
-
 }
 
 float Bayes::calcularProbabilidadPorClase(float probabilidadDeClase,float probabilidadPriori,float probabilidadPosteriori){

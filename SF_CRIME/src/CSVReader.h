@@ -18,7 +18,7 @@
 
 using namespace std;
 
-const int cantidadParcelas = 25;
+const int cantidadParcelas = 100;
 
 class CSVReader {
 
