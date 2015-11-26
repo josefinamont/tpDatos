@@ -15,12 +15,13 @@ Bayes::Bayes() {
 	this->probabilidadesPorDistrito = 0;
 	this->probabilidadesPorHoras = 0;
 	this->probabilidadesPorMes = 0;
+	this->probabilidadesPorCoordenadas = 0;
 }
 
 void Bayes::train(map<string,float> frecuenciaDeCrimenes,map<string,float> probabilidadesDeCrimenes,
 		map<string,int> frecuenciaDeCrimenesPorDistrito,map<string,float> *probabilidadesPorDias,
 		map<string,float> *probabilidadesPorDistrito,map<string,float> *probabilidadesPorHoras,
-		map<string,float> *probabilidadesPorMes){
+		map<string,float> *probabilidadesPorMes,map<string,float> *probabilidadesPorCoordenadas){
 
 	this->frecuenciaDeCrimenes = frecuenciaDeCrimenes;
 	this->probabilidadesDeCrimenes = probabilidadesDeCrimenes;
@@ -29,6 +30,7 @@ void Bayes::train(map<string,float> frecuenciaDeCrimenes,map<string,float> proba
 	this->probabilidadesPorDistrito = probabilidadesPorDistrito;
 	this->probabilidadesPorHoras = probabilidadesPorHoras;
 	this->probabilidadesPorMes = probabilidadesPorMes;
+	this->probabilidadesPorCoordenadas = probabilidadesPorCoordenadas;
 
 	cout << "Se entrenó correctamente el clasificador" << endl;
 }
@@ -72,7 +74,8 @@ void Bayes::predecir(char* nameFile){
 				if (nroItem == 1) row.mes = csvItem; else
 					if (nroItem == 2) row.hora = csvItem; else
 						if (nroItem == 3) row.diaDeLaSemana = csvItem; else
-							if (nroItem == 4) row.distrito = csvItem;
+							if (nroItem == 4) row.distrito = csvItem; else
+								if(nroItem == 7) row.Parcela = csvItem;
 
 				nroItem++;
 			}
@@ -163,19 +166,22 @@ float Bayes::calcularProbabilidadPriori(Row row){
 
 float Bayes::calcularProbabilidadPosteriori(Row row,string nombreDelCrimen){
 
-	double p1,p2,p3,p4;
+	double p1,p2,p3,p4,p5;
 
 	int indiceDeHoras = atoi((row.hora).c_str());
 	int indiceDeDias = calcularDiaCorrespondiente(row.diaDeLaSemana);
 	int indiceDeDistritos = calcularDistritoCorrespondiente(row.distrito);
 	int indiceDeMeses = calcularMesCorrespondiente(row.mes);
+    int indiceCoordenadas = atoi((row.Parcela).c_str());
 
 	p1 = (probabilidadesPorHoras[indiceDeHoras][nombreDelCrimen]);//de 0 a 23
 	p2 = (probabilidadesPorDias[indiceDeDias][nombreDelCrimen]);//de 0 a 6
 	p3 = (probabilidadesPorDistrito[indiceDeDistritos][nombreDelCrimen]);//de 0 a 9
 	p4 = (probabilidadesPorMes[indiceDeMeses][nombreDelCrimen]);//de 0 a 11
+	p5 = (probabilidadesPorCoordenadas[indiceCoordenadas][nombreDelCrimen]);// de 0 a cantidadParcelas que es constante;
 
-	return p1*p2*p3*p4;
+
+	return p1*p2*p3*p4*p5;
 
 }
 

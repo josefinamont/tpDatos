@@ -26,6 +26,7 @@ private:
 		string hora;
 		string diaDeLaSemana;
 		string distrito;
+		string Parcela;
 	} row;
 
 	map<string,float> frecuenciaDeCrimenes;
@@ -35,6 +36,7 @@ private:
 	map<string,float> *probabilidadesPorDistrito;
 	map<string,float> *probabilidadesPorHoras;
 	map<string,float> *probabilidadesPorMes;
+	map<string,float> *probabilidadesPorCoordenadas;
 
 	void predecirRow(Row row,float* probabilidades);
 
@@ -57,7 +59,7 @@ public:
 	void train(map<string,float> frecuenciaDeCrimenes,map<string,float> probabilidadesDeCrimenes,
 		map<string,int> frecuenciaDeCrimenesPorDistrito,map<string,float> *probabilidadesPorDias,
 		map<string,float> *probabilidadesPorDistrito,map<string,float> *probabilidadesPorHoras,
-		map<string,float> *probabilidadesPorMes);
+		map<string,float> *probabilidadesPorMes,map<string,float> *probabilidadesPorCoordenadas);
 
 	void predecir(char* nameFile);
 

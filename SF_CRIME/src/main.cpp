@@ -25,6 +25,7 @@ int main() {
 	map<string,float> probabilidadesPorDistrito[10];//probabilidades de crimenes por distrito
 	map<string,float> probabilidadesPorHoras[24];
 	map<string,float> probabilidadesPorMes[12];
+	map<string,float> probabilidadesPorCoordenadas[cantidadParcelas];
 
 	CSVReader csv;
 	Bayes clasificadorBayesiano;
@@ -34,10 +35,10 @@ int main() {
 	char* test = "testSpliteado.csv";
 
 	csv.open(train,cantidadDeRowsTrain,frecuenciaDeCrimenes,frecuenciaDeCrimenesPorDistrito,probabilidadesDeCrimenes,
-			probabilidadesPorDias,probabilidadesPorDistrito,probabilidadesPorHoras,probabilidadesPorMes,crimenesPorMes);
+			probabilidadesPorDias,probabilidadesPorDistrito,probabilidadesPorHoras,probabilidadesPorMes,probabilidadesPorCoordenadas,crimenesPorMes);
 
 	clasificadorBayesiano.train(frecuenciaDeCrimenes,probabilidadesDeCrimenes,frecuenciaDeCrimenesPorDistrito,
-			probabilidadesPorDias,probabilidadesPorDistrito,probabilidadesPorHoras,probabilidadesPorMes);
+			probabilidadesPorDias,probabilidadesPorDistrito,probabilidadesPorHoras,probabilidadesPorMes,probabilidadesPorCoordenadas);
 
 	clasificadorBayesiano.predecir(test);
 

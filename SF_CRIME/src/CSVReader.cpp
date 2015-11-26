@@ -17,13 +17,14 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
 		map<string,int> &crimenesPorDistrito,map<string,float> &probabilidadesCrimenes,
 		map<string,float> probabilidadesDias[7],map<string,float> probabilidadesDistritos[10],
 		map<string,float> probabilidadesHoras[24],map<string,float> probabilidadesMes[12],
-		map<string,int> &crimenesPorMes){
+		map<string,float> probabilidadesCoordenadas[cantidadParcelas],map<string,int> &crimenesPorMes){
 
 	string line, csvItem, crimen, horaActual, mesActual;
 	ifstream myfile(nameFile);
 	int nroItem = 0;
 
 	map<string,int> horas;
+	map<string,int> parcelas;
 
 	map<string,float> lunes;
 	map<string,float> martes;
@@ -83,6 +84,8 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
 
 				if (nroItem == 4) this->calcularCrimenesPorDistrito(crimenesPorDistrito,csvItem,bayview,central,ingleside,mission,
 								northern,park,richmond,southern,taraval,tenderloin,crimen);
+
+				if(nroItem == 7) this->calcularCrimenesPorCoordenada(csvItem,crimen,probabilidadesCoordenadas,parcelas);
 				nroItem++;
 			}
 
@@ -103,6 +106,7 @@ void CSVReader::open(char *nameFile,int &cantidadDeRowsTrain,map<string,float> &
     this->calcularProbabilidadesDeCrimenesPorHora(probabilidadesHoras,frecuenciaCrimenes);
     this->calcularProbabilidadesDeLosCrimenesPorMes(enero,febrero,marzo,abril,mayo,junio,julio,agosto,
     		septiembre,octubre,noviembre,diciembre,frecuenciaCrimenes);
+    this->calcularProbabilidadesDeCrimenesPorCoordenada(probabilidadesCoordenadas,frecuenciaCrimenes);
 
 	probabilidadesDias[0] = lunes;
 	probabilidadesDias[1] = martes;
@@ -221,9 +225,21 @@ void CSVReader::calcularProbabilidadesDeCrimenesPorHora(map<string,float> crimen
 
 	int numero = 0;
 	while(numero < 24){
-		calcularProbabilidad(crimenesPorHora[numero], frecuenciaCrimenes);
+		calcularProbabilidad(crimenesPorHora[numero],frecuenciaCrimenes);
 		numero++;
 	}
+}
+
+void CSVReader::calcularProbabilidadesDeCrimenesPorCoordenada(map<string,float> crimenesPorCoordenada[cantidadParcelas],
+	map<string,float>frecuenciaCrimenes){
+
+	int numero = 0;
+	while(numero < 24){
+		calcularProbabilidad(crimenesPorCoordenada[numero],frecuenciaCrimenes);
+		numero++;
+	}
+
+
 }
 
 void CSVReader::imprimirCrimenesPorHora(map<string,float>crimenesPorHora[24]){
@@ -289,6 +305,21 @@ void CSVReader::calcularCrimenesPorHora(string horaActual,string delitoActual,ma
 		horas[horaActual] = atoi(horaActual.c_str());
 		crimenesPorHora[atoi(horaActual.c_str())][delitoActual] = 1;
 	}
+}
+
+void CSVReader::calcularCrimenesPorCoordenada(string parcelaActual,string delitoActual,
+		map<string,float> crimenesPorCoordenada[cantidadParcelas],map<string,int> &parcelas){
+
+		if (parcelas.count(parcelaActual) < 1){
+			if (crimenesPorCoordenada[atoi(parcelaActual.c_str())].count(delitoActual)<1){
+				crimenesPorCoordenada[atoi(parcelaActual.c_str())][delitoActual] = 1;
+			}
+			else crimenesPorCoordenada[atoi(parcelaActual.c_str())][delitoActual] += 1;
+		}
+		else {
+			parcelas[parcelaActual] = atoi(parcelaActual.c_str());
+			crimenesPorCoordenada[atoi(parcelaActual.c_str())][delitoActual] = 1;
+		}
 }
 
 void CSVReader::calcularCrimenesPorDia(string &csvItem,string &crimen,map<string,float> &lunes,map<string,float> &martes,map<string,float> &miercoles,

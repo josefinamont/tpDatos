@@ -18,6 +18,8 @@
 
 using namespace std;
 
+const int cantidadParcelas = 25;
+
 class CSVReader {
 
 private:
@@ -32,7 +34,7 @@ public:
 			map<string,int> &crimenesPorDistrito,map<string,float> &probabilidadesCrimenes,
 			map<string,float> probabilidadesDias[7],map<string,float> probabilidadesDistritos[10],
 			map<string,float> probabilidadesHoras[24],map<string,float> probabilidadesMes[12],
-			map<string,int> &crimenesPorMes);
+			map<string,float> probabilidadesPorCoordenadas[cantidadParcelas],map<string,int> &crimenesPorMes);
 
 	void calcularProbabilidadesDeLosCrimenes(map<string,float> frecuenciaCrimenes,map<string,float> &probabilidadesCrimenes,
 			int cantidadDeRowsTrain);
@@ -51,15 +53,19 @@ public:
 			map<string,float> &julio,map<string,float> &agosto,map<string,float> &septiembre,
 			map<string,float> &octubre,map<string,float> &noviembre,map<string,float> &diciembre,map<string,int> &crimenesPorMes);
 
+	void calcularCrimenesPorHora(string horaActual,string delitoActual,map<string,float> crimenesPorHora[24],map<string,int> &horas);
+
+	void calcularCrimenesPorCoordenada(string parcelaActual,string delitoActual,map<string,float> crimenesPorCoordenada[cantidadParcelas],map<string,int> &parcelas);
+
 	void calcularProbabilidadesDeLosCrimenesPorMes(map<string,float> &enero, map<string,float> &febrero,
 			map<string,float> &marzo,map<string,float> &abril,map<string,float> &mayo,map<string,float> &junio,
 			map<string,float> &julio,map<string,float> &agosto,map<string,float> &septiembre,
 			map<string,float> &octubre,map<string,float> &noviembre,map<string,float> &diciembre,
 			map<string,float> frecuenciaCrimenes);
 
-	void calcularCrimenesPorHora(string horaActual,string delitoActual,map<string,float> crimenesPorHora[24],map<string,int> &horas);
-
 	void calcularProbabilidadesDeCrimenesPorHora(map<string,float> crimenesPorHora[24], map<string,float> frecuenciaCrimenes);
+
+	void calcularProbabilidadesDeCrimenesPorCoordenada(map<string,float> crimenesPorCoordenada[cantidadParcelas], map<string,float> frecuenciaCrimenes);
 
 	void calcularProbabilidadesDeCrimenesPorDia(map<string,float> &lunes,map<string,float> &martes,
 			map<string,float> &miercoles,map<string,float> &jueves,map<string,float> &viernes,map<string,float> &sabado,
