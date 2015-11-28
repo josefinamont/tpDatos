@@ -310,6 +310,7 @@ void CSVReader::calcularCrimenesPorHora(string horaActual,string delitoActual,ma
 void CSVReader::calcularCrimenesPorCoordenada(string parcelaActual,string delitoActual,
 		map<string,float> crimenesPorCoordenada[cantidadParcelas],map<string,int> &parcelas){
 
+	if(parcelaActual != "-1"){//condicion que se agrega para coordenadas que no pertenecen a SF
 		if (parcelas.count(parcelaActual) < 1){
 			if (crimenesPorCoordenada[atoi(parcelaActual.c_str())].count(delitoActual)<1){
 				crimenesPorCoordenada[atoi(parcelaActual.c_str())][delitoActual] = 1;
@@ -320,6 +321,7 @@ void CSVReader::calcularCrimenesPorCoordenada(string parcelaActual,string delito
 			parcelas[parcelaActual] = atoi(parcelaActual.c_str());
 			crimenesPorCoordenada[atoi(parcelaActual.c_str())][delitoActual] = 1;
 		}
+	}
 }
 
 void CSVReader::calcularCrimenesPorDia(string &csvItem,string &crimen,map<string,float> &lunes,map<string,float> &martes,map<string,float> &miercoles,

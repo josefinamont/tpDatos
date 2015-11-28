@@ -167,6 +167,7 @@ float Bayes::calcularProbabilidadPriori(Row row){
 float Bayes::calcularProbabilidadPosteriori(Row row,string nombreDelCrimen){
 
 	double p1,p2,p3,p4,p5;
+	p5 = 1;
 
 	int indiceDeHoras = atoi((row.hora).c_str());
 	int indiceDeDias = calcularDiaCorrespondiente(row.diaDeLaSemana);
@@ -178,7 +179,10 @@ float Bayes::calcularProbabilidadPosteriori(Row row,string nombreDelCrimen){
 	p2 = (probabilidadesPorDias[indiceDeDias][nombreDelCrimen]);//de 0 a 6
 	p3 = (probabilidadesPorDistrito[indiceDeDistritos][nombreDelCrimen]);//de 0 a 9
 	p4 = (probabilidadesPorMes[indiceDeMeses][nombreDelCrimen]);//de 0 a 11
-	p5 = (probabilidadesPorCoordenadas[indiceCoordenadas][nombreDelCrimen]);// de 0 a cantidadParcelas que es constante;
+
+	if(indiceCoordenadas != -1){
+		p5 = (probabilidadesPorCoordenadas[indiceCoordenadas][nombreDelCrimen]);// de 0 a cantidadParcelas que es constante;
+	}
 
 	return p1*p2*p3*p4*p5;
 }
